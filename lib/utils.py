@@ -109,7 +109,7 @@ class DataObject(object):
         self.data[measurement] = self.data.standard_value.apply(lambda x: -np.log10(x*(10 ** -9)))
         return self
     
-    def calculate_mann_whitney(self, descriptor):
+    def calculate_mann_whitney(self, descriptor=''):
         from scipy.stats import mannwhitneyu
         
         if descriptor not in self.data.columns:
@@ -135,11 +135,9 @@ class DataObject(object):
                                 'Interpretation': interpret
                             }, index=[0])
         
-        save_path = f'../data/mannwhitneyu_{descriptor}_.csv'
-        results.to_csv(save_path)
         return results
     
-    def visualize_distribution(self, descriptor):
+    def visualize_distribution(self, descriptor=''):
         if descriptor not in self.data.columns:
             raise DataObjectError(f'{descriptor} not in the DataFrame')
         
@@ -153,8 +151,6 @@ class DataObject(object):
 
         plt.xlabel('Bioactivity class', fontsize=14, fontweight='bold')
         plt.ylabel(f'{descriptor}', fontsize=14, fontweight='bold')
-
-        plt.savefig(f'../plots/{descriptor}_plot.pdf')
         
     def generate_morgan_matrix(self):
         morgan_matrix = np.zeros((1, 2048))
