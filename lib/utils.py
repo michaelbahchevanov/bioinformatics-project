@@ -178,3 +178,10 @@ class DataObject(object):
         print('\n')
         print(f'Morgan Matrix dimensions: {morgan_matrix.shape}')
         return morgan_matrix
+
+def projection(trial_molecule, dim_V, p, feature_vecs):
+    trial_molecule_proj = np.zeros(p)
+    for i in range(dim_V):
+        dotprod = float(np.vdot(feature_vecs[:, i], trial_molecule))
+        trial_molecule_proj = trial_molecule_proj + dotprod * feature_vecs[:, i]
+    return np.array([float(i) for i in trial_molecule_proj])
